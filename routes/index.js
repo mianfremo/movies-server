@@ -1,9 +1,11 @@
 'use strict'
-const app = require('./app');
-const api = app.router()
+const app = require('../app');
+const express = require('express')
+const api = express.Router()
+var Movie = require('../models/movie')
 
-api.get('/movies', function(req, res) {
-	Movie.find({}, function(err, movies) {
+api.get('/movies', (req, res)=> {
+	Movie.find({}, (err, movies)=> {
 		res.status(200).send(movies)
 	});
 })

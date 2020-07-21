@@ -1,10 +1,11 @@
 'use strict'
+require('./genre')
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Genre = mongoose.model('Genre')
 
-var MovieSchema = new Schema({
+var movieSchema = new Schema({
 	title: String, 
 	desc: String,
 	genre: { type: Schema.ObjectId, ref: "Genre" } 
@@ -12,4 +13,4 @@ var MovieSchema = new Schema({
 
 })
 
-module.exports = mongoose.model("Movie", MovieSchema)
+module.exports = mongoose.model("Movie", movieSchema)
