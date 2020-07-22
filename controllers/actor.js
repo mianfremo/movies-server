@@ -1,81 +1,84 @@
 'use strict'
 
-const Genre = require('../models/genre')
+const Actor = require('../models/actor')
 
-function getGenres(req, res){
-	Genre.find({}, (err, genres)=>{
+function getActors(req, res){
+	Actor.find({}, (err, actors)=>{
 		if(err){
 			return res.status(500).send({message: `Error al realizar la peticion ${err}`})
 		}
-		if(!genres){
-			return res.status(404).send({message:`No existen generos disponibles`})
+		if(!actors){
+			return res.status(404).send({message:`No existen actores disponibles`})
 		}
 
-		return res.status(200).send({genres});	
+		return res.status(200).send({actors});	
 	});
 }
 
-function getGenre(req, res){
-	let genreId = req.params.genreId
+function getActor(req, res){
+	let actorId = req.params.actorId
 
-	Genre.findById(genreId, (err, genre)=>{
+	Actor.findById(actorId, (err, actor)=>{
 		if(err){
 			return res.status(500).send({message: `Error al realizar la peticion ${err}`})
 		}
-		if(!genre){
-			return res.status(404).send({message:`No existe el genero`})
+		if(!actor){
+			return res.status(404).send({message:`No existe el actor`})
 		}
 
-		return res.status(200).send({genre})
+		return res.status(200).send({actor})
 	})
 
 }
 
-function saveGenre(req, res){
-	let genre = new Genre()
-	genre.name = req.body.name
+function saveActor(req, res){
+	let actor = new Actor()
+	actor.name = req.body.name
+	actor.birth = req.body.birth
+	actor.oscars = req.body.oscars
 
-	genre.save((err, saved)=>{
+
+	actor.save((err, saved)=>{
 		if(err){
-			return res.status(500).send({message: `Error al guardar el genero ${err}`})
+			return res.status(500).send({message: `Error al guardar el actor ${err}`})
 		}
 
-		return res.status(200).send({genre: saved})
-		console.log("Genero guardado")
+		return res.status(200).send({actor: saved})
+		console.log("Actor guardado")
 	})
 }
 
-function updateGenre(req, res){
-	let genreId = req.params.genreId
+function updateActor(req, res){
+	let actoirId = req.params.actorId
 	let update = req.body
 
-	Genre.findByIdAndUpdate(genreId, update,(err, genreUpdated)=>{
+	Actor.findByIdAndUpdate(actorId, update,(err, actorUpdated)=>{
 		if(err){
-			return res.status(500).send({message: `Error al actualizar el genero ${err}`})
+			return res.status(500).send({message: `Error al actualizar el actor ${err}`})
 		}
-		return res.status(200).send({genre: genreUpdated})
+		return res.status(200).send({genre: actorUpdated})
 	})
 	
 }
 
-function deleteGenre(req,res){
-	let genreId = req.params.genreId
+function deleteActor(req,res){
+	let actorId = req.params.actorId
 
-	Genre.findById(genreId, (err,genre)=>{
+	Actor.findById(genreId, (err,actor)=>{
 		if(err) res.status(500).send({message:`Error al realizar la peticion: ${err}`});
 
 
-		genre.remove(err =>{
-			if(err) res.status(500).send({message:`Error al borrar el genero: ${err}`});
-			res.status(200).send({message: "El genero ha sido eliminado"})
+		actor.remove(err =>{
+			if(err) res.status(500).send({message:`Error al borrar el actor: ${err}`});
+			res.status(200).send({message: "El actor ha sido eliminado"})
 		})
 	})
 }
 
 module.exports = {
-	getGenre,
-	getGenres,
-	updateGenre,
-	saveGenre,
-	deleteGenre
+	getActor,
+	getActors,
+	updateActor,
+	saveActor,
+	deleteActor
 }
