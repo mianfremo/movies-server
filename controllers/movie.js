@@ -38,6 +38,7 @@ function saveMovie(req, res){
 	movie.desc = req.body.desc
 	movie.rate = req.body.rate
 	movie.genre = req.body.genre
+	movie.image = req.body.image
 
 	movie.save((err, saved)=>{
 		if(err){

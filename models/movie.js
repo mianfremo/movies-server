@@ -8,7 +8,8 @@ var movieSchema = new Schema({
 	title: String, 
 	desc: String,
 	genre: { type: Schema.ObjectId, ref: "Genre" },
-	rate: Number
+	rate: Number,
+	image: String
 
 
 })
