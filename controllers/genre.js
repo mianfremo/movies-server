@@ -33,7 +33,7 @@ function getGenre(req, res){
 
 function saveGenre(req, res){
 	let genre = new Genre()
-	name = req.body.name
+	genre.name = req.body.name
 
 	genre.save((err, saved)=>{
 		if(err){
@@ -51,7 +51,7 @@ function updateGenre(req, res){
 
 	Genre.findByIdAndUpdate(genreId, update,(err, genreUpdated)=>{
 		if(err){
-			return res.status(500).send({message: `Error al realizar al actualizar ${err}`})
+			return res.status(500).send({message: `Error al actualizar el genero ${err}`})
 		}
 		return res.status(200).send({genre: genreUpdated})
 	})
