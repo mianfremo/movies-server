@@ -1,13 +1,24 @@
 'use strict'
-const app = require('../app');
-const express = require('express')
-const api = express.Router()
-var Movie = require('../models/movie')
 
-api.get('/movies', (req, res)=> {
-	Movie.find({}, (err, movies)=> {
-		res.status(200).send(movies)
-	});
-})
+const express = require('express');
+const GenreController = require('../controllers/genre')
+const MovieController = require('../controllers/movie')
+const api = express.Router();
+// const auth = require('../middlewares/auth')
+
+api.get('/genre', GenreController.getGenres);
+api.get('/genre/:genreId',GenreController.getGenre);
+api.post('/genre', GenreController.saveGenre);
+api.put('/genre/:genreId', GenreController.updateGenre);
+api.delete('/genre/:genreId', GenreController.deleteGenre);
 
 
+api.get('/movie', MovieController.getMovies);
+api.get('/movie/:movieId',MovieController.getMovie);
+api.post('/movie', MovieController.saveMovie);
+api.put('/movie/:movieId', MovieController.updateMovie);
+api.delete('/movie/:movieId', MovieController.deleteMovie);
+
+
+
+module.exports = api

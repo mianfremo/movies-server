@@ -77,9 +77,9 @@ function deleteMovie(req,res){
 }
 
 module.exports = {
-	getGenre,
-	getGenres,
-	updateGenre,
-	saveGenre,
-	deleteGenre
+	getMovie,
+	getMovies,
+	updateMovie,
+	saveMovie,
+	deleteMovie
 }
