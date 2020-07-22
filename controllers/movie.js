@@ -41,10 +41,10 @@ function saveMovie(req, res){
 
 	movie.save((err, saved)=>{
 		if(err){
-			return res.status(500).send(message: `Error al guardar la pelicula ${err}`)
+			return res.status(500).send({message: `Error al guardar la pelicula ${err}`})
 		}
 
-		return res.status(200).send(movie: saved)
+		return res.status(200).send({movie: saved})
 		console.log("Pelicula guardada")
 	})
 }

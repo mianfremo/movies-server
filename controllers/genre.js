@@ -37,10 +37,10 @@ function saveGenre(req, res){
 
 	genre.save((err, saved)=>{
 		if(err){
-			return res.status(500).send(message: `Error al guardar el genero ${err}`)
+			return res.status(500).send({message: `Error al guardar el genero ${err}`})
 		}
 
-		return res.status(200).send(genre: saved)
+		return res.status(200).send({genre: saved})
 		console.log("Genero guardado")
 	})
 }
