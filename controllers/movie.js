@@ -1,6 +1,7 @@
 'use strict'
 
 const Genre = require('../models/genre')
+const Actor = require('../models/actor')
 const Movie = require('../models/movie')
 
 function getMovies(req, res){
@@ -39,6 +40,7 @@ function saveMovie(req, res){
 	movie.rate = req.body.rate
 	movie.genre = req.body.genre
 	movie.image = req.body.image
+	movie.actors = req.body.actors
 
 	movie.save((err, saved)=>{
 		if(err){

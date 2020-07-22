@@ -9,7 +9,8 @@ var movieSchema = new Schema({
 	desc: String,
 	genre: { type: Schema.ObjectId, ref: "Genre" },
 	rate: Number,
-	image: String
+	image: String,
+	actors: [{type: Schema.ObjectId, ref: "Actor"}]
 
 
 })
