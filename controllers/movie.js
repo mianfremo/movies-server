@@ -5,37 +5,41 @@ const Actor = require('../models/actor')
 const Movie = require('../models/movie')
 
 function getMovies(req, res){
-	Movie.find({}, function(err, movies) {
-		Genre.populate(movies, {path: "genre"},function(err, movies){
-			if(err){
+	Movie
+	.find({})
+	.populate('genre')
+	.populate('actors')
+	.exec((err, movies)=> {
+		if(err){
 				return res.status(500).send({message: `Error al realizar la peticion ${err}`})
-			}
-			if(!movies){
-				return res.status(404).send({message:`No existen peliculas disponibles`})
-			}
+		}
+		if(!movies){
+			return res.status(404).send({message:`No existen peliculas disponibles`})
+		}
 
-			return res.status(200).send({movies});	
-		}); 
-	});
+		return res.status(200).send({movies});	
+	})
 
 }
 
 function getMovie(req, res){
 	let movieId = req.params.movieId
-	
 
-	Movie.findById(movieId, (err, movie)=>{
-		Genre.populate(movie, {path: "genre"},function(err, movie){
-			if(err){
+	Movie
+	.findById(movieId)
+	.populate('genre')
+	.populate('actors')
+	.exec((err, movie)=> {
+		if(err){
 				return res.status(500).send({message: `Error al realizar la peticion ${err}`})
-			}
-			if(!movie){
-				return res.status(404).send({message:`No existen la pelicula`})
-			}
+		}
+		if(!movie){
+			return res.status(404).send({message:`No existen la pelicula`})
+		}
 
-			return res.status(200).send({movie});	
-		}); 
+		return res.status(200).send({movie});	
 	})
+	
 
 }
 
@@ -48,7 +52,8 @@ function saveMovie(req, res){
 	movie.image = req.body.image
 	movie.actors = req.body.actors
 
-	movie.save((err, saved)=>{
+	movie
+	.save((err,saved)=>{
 		if(err){
 			return res.status(500).send({message: `Error al guardar la pelicula ${err}`})
 		}
@@ -56,13 +61,16 @@ function saveMovie(req, res){
 		return res.status(200).send({movie: saved})
 		console.log("Pelicula guardada")
 	})
+
 }
 
 function updateMovie(req, res){
 	let movieId = req.params.movieId
 	let update = req.body
 
-	Movie.findByIdAndUpdate(movieId, update,(err, movieUpdated)=>{
+	Movie
+	.findOneAndUpdate(movieId,update)
+	.exec((err, movieUpdated)=>{
 		if(err){
 			return res.status(500).send({message: `Error al actualizar la pelicula ${err}`})
 		}
@@ -74,15 +82,13 @@ function updateMovie(req, res){
 function deleteMovie(req,res){
 	let movieId = req.params.movieId
 
-	Movie.findById(movieId, (err,movie)=>{
+	Movie
+	.findOneAndDelete(movieId)
+	.exec((err,movie)=>{
 		if(err) res.status(500).send({message:`Error al realizar la peticion: ${err}`});
-
-
-		movie.remove(err =>{
-			if(err) res.status(500).send({message:`Error al borrar la pelicula: ${err}`});
-			res.status(200).send({message: "La pelicula ha sido eliminada"})
-		})
+		res.status(200).send({message: "La pelicula ha sido eliminada"})
 	})
+
 }
 
 module.exports = {
