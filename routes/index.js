@@ -7,7 +7,7 @@ const MovieController = require('../controllers/movie')
 const api = express.Router();
 // const auth = require('../middlewares/auth')
 
-api.get('/actor', ActorController.getActor);
+api.get('/actor', ActorController.getActors);
 api.get('/actor/:actorId',ActorController.getActor);
 api.post('/actor', ActorController.saveActor);
 api.put('/actor/:actorId', ActorController.updateActor);

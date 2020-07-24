@@ -5,30 +5,36 @@ const Actor = require('../models/actor')
 const Movie = require('../models/movie')
 
 function getMovies(req, res){
-	Movie.find({}, (err, movies)=>{
-		if(err){
-			return res.status(500).send({message: `Error al realizar la peticion ${err}`})
-		}
-		if(!movies){
-			return res.status(404).send({message:`No existen peliculas disponibles`})
-		}
+	Movie.find({}, function(err, movies) {
+		Genre.populate(movies, {path: "genre"},function(err, movies){
+			if(err){
+				return res.status(500).send({message: `Error al realizar la peticion ${err}`})
+			}
+			if(!movies){
+				return res.status(404).send({message:`No existen peliculas disponibles`})
+			}
 
-		return res.status(200).send({movies});	
+			return res.status(200).send({movies});	
+		}); 
 	});
+
 }
 
 function getMovie(req, res){
 	let movieId = req.params.movieId
+	
 
-	Movie.findById(movieId, (err, genre)=>{
-		if(err){
-			return res.status(500).send({message: `Error al realizar la peticion ${err}`})
-		}
-		if(!movie){
-			return res.status(404).send({message:`No existe la pelicula`})
-		}
+	Movie.findById(movieId, (err, movie)=>{
+		Genre.populate(movie, {path: "genre"},function(err, movie){
+			if(err){
+				return res.status(500).send({message: `Error al realizar la peticion ${err}`})
+			}
+			if(!movie){
+				return res.status(404).send({message:`No existen la pelicula`})
+			}
 
-		return res.status(200).send({movie})
+			return res.status(200).send({movie});	
+		}); 
 	})
 
 }

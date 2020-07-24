@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 
 var actorSchema = new Schema({
 	name: String,
-	birth: String,
+	birth: Date,
 	oscars: Number
 })
 
