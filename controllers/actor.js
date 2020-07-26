@@ -3,30 +3,34 @@
 const Actor = require('../models/actor')
 
 function getActors(req, res){
-	Actor.find({}, (err, actors)=>{
+	Actor
+	.find({})
+	.exec((err, actors)=> {
 		if(err){
-			return res.status(500).send({message: `Error al realizar la peticion ${err}`})
+				return res.status(500).send({message: `Error al realizar la peticion ${err}`})
 		}
 		if(!actors){
 			return res.status(404).send({message:`No existen actores disponibles`})
 		}
 
 		return res.status(200).send({actors});	
-	});
+	})
 }
 
 function getActor(req, res){
 	let actorId = req.params.actorId
 
-	Actor.findById(actorId, (err, actor)=>{
+	Actor
+	.findById(actorId)
+	.exec((err, actor)=> {
 		if(err){
-			return res.status(500).send({message: `Error al realizar la peticion ${err}`})
+				return res.status(500).send({message: `Error al realizar la peticion ${err}`})
 		}
 		if(!actor){
 			return res.status(404).send({message:`No existe el actor`})
 		}
 
-		return res.status(200).send({actor})
+		return res.status(200).send({actor});	
 	})
 
 }
@@ -38,7 +42,8 @@ function saveActor(req, res){
 	actor.oscars = req.body.oscars
 
 
-	actor.save((err, saved)=>{
+	actor
+	.save((err,saved)=>{
 		if(err){
 			return res.status(500).send({message: `Error al guardar el actor ${err}`})
 		}
@@ -52,11 +57,13 @@ function updateActor(req, res){
 	let actoirId = req.params.actorId
 	let update = req.body
 
-	Actor.findByIdAndUpdate(actorId, update,(err, actorUpdated)=>{
+	Actor
+	.findOneAndUpdate(actorId,update)
+	.exec((err, actorUpdated)=>{
 		if(err){
 			return res.status(500).send({message: `Error al actualizar el actor ${err}`})
 		}
-		return res.status(200).send({genre: actorUpdated})
+		return res.status(200).send({movie: actorUpdated})
 	})
 	
 }
@@ -64,11 +71,14 @@ function updateActor(req, res){
 function deleteActor(req,res){
 	let actorId = req.params.actorId
 
-	Actor.findById(genreId, (err,actor)=>{
-		if(err) res.status(500).send({message:`Error al realizar la peticion: ${err}`});
+	Actor
+	.findById(actorId)
+	.exec((err, actor)=>{
+		if(err){
+			return res.status(500).send({message: `Error al realizar la peticion ${err}`})
+		}
 
-
-		actor.remove(err =>{
+		actor.remove(err=>{
 			if(err) res.status(500).send({message:`Error al borrar el actor: ${err}`});
 			res.status(200).send({message: "El actor ha sido eliminado"})
 		})

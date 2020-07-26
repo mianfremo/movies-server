@@ -34,7 +34,7 @@ function getMovie(req, res){
 				return res.status(500).send({message: `Error al realizar la peticion ${err}`})
 		}
 		if(!movie){
-			return res.status(404).send({message:`No existen la pelicula`})
+			return res.status(404).send({message:`No existe la pelicula`})
 		}
 
 		return res.status(200).send({movie});	
