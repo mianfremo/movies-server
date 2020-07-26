@@ -66,9 +66,11 @@ function saveMovie(req, res){
 
 function updateMovie(req, res){
 	let movieId = req.params.movieId
-	console.log(req.body.actors)
-	req.body.actors = req.body.actors.map(s => mongoose.Types.ObjectId(s))
-	// let actors = req.body.actors
+
+	let actors = req.body.actors
+	actors = actors.split(",")
+
+	req.body.actors = actors
 
 	let update = req.body
 	// console.log(update)
