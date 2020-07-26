@@ -75,7 +75,7 @@ function updateMovie(req, res){
 	let update = req.body
 
 	Movie
-	.findOneAndUpdate(movieId,update)
+	.findByIdAndUpdate(movieId,update)
 	.exec((err, movieUpdated)=>{
 		if(err){
 			return res.status(500).send({message: `Error al actualizar la pelicula ${err}`})

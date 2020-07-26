@@ -55,7 +55,7 @@ function updateGenre(req, res){
 	let update = req.body
 
 	Genre
-	.findOneAndUpdate(genreId,update)
+	.findByIdAndUpdate(genreId,update)
 	.exec((err, genreUpdated)=>{
 		if(err){
 			return res.status(500).send({message: `Error al actualizar el genero ${err}`})

@@ -1,10 +1,12 @@
 'use strict'
 
+const Movie = require('../models/movie')
 const Actor = require('../models/actor')
 
 function getActors(req, res){
 	Actor
 	.find({})
+	.populate('movies')
 	.exec((err, actors)=> {
 		if(err){
 				return res.status(500).send({message: `Error al realizar la peticion ${err}`})
@@ -22,6 +24,7 @@ function getActor(req, res){
 
 	Actor
 	.findById(actorId)
+	.populate('movies')
 	.exec((err, actor)=> {
 		if(err){
 				return res.status(500).send({message: `Error al realizar la peticion ${err}`})
@@ -40,6 +43,7 @@ function saveActor(req, res){
 	actor.name = req.body.name
 	actor.birth = req.body.birth
 	actor.oscars = req.body.oscars
+	actor.movies = req.body.movies.split(",")
 
 
 	actor
@@ -54,11 +58,12 @@ function saveActor(req, res){
 }
 
 function updateActor(req, res){
-	let actoirId = req.params.actorId
+	let actorId = req.params.actorId
+	req.body.movies = req.body.movies.split(",")
 	let update = req.body
 
 	Actor
-	.findOneAndUpdate(actorId,update)
+	.findByIdAndUpdate(actorId,update)
 	.exec((err, actorUpdated)=>{
 		if(err){
 			return res.status(500).send({message: `Error al actualizar el actor ${err}`})
