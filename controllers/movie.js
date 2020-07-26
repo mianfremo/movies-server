@@ -7,7 +7,7 @@ const Movie = require('../models/movie')
 function getMovies(req, res){
 	Movie
 	.find({})
-	.populate('genre')
+	.populate('genres')
 	.populate('actors')
 	.exec((err, movies)=> {
 		if(err){
@@ -27,7 +27,7 @@ function getMovie(req, res){
 
 	Movie
 	.findById(movieId)
-	.populate('genre')
+	.populate('genres')
 	.populate('actors')
 	.exec((err, movie)=> {
 		if(err){
@@ -48,9 +48,9 @@ function saveMovie(req, res){
 	movie.title = req.body.title
 	movie.desc = req.body.desc
 	movie.rate = req.body.rate
-	movie.genre = req.body.genre
+	movie.genres = req.body.genres.split(",")
 	movie.image = req.body.image
-	movie.actors = req.body.actors
+	movie.actors = req.body.actors.split(",")
 
 	movie
 	.save((err,saved)=>{
@@ -67,13 +67,12 @@ function saveMovie(req, res){
 function updateMovie(req, res){
 	let movieId = req.params.movieId
 
-	let actors = req.body.actors
-	actors = actors.split(",")
+	//Obtencion del string de id y conversion a un array de strings
+	req.body.actors = req.body.actors.split(",")
 
-	req.body.actors = actors
+	req.body.genres = req.body.genres.split(",")
 
 	let update = req.body
-	// console.log(update)
 
 	Movie
 	.findOneAndUpdate(movieId,update)
