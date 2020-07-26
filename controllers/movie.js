@@ -66,7 +66,12 @@ function saveMovie(req, res){
 
 function updateMovie(req, res){
 	let movieId = req.params.movieId
+	console.log(req.body.actors)
+	req.body.actors = req.body.actors.map(s => mongoose.Types.ObjectId(s))
+	// let actors = req.body.actors
+
 	let update = req.body
+	// console.log(update)
 
 	Movie
 	.findOneAndUpdate(movieId,update)
@@ -83,10 +88,16 @@ function deleteMovie(req,res){
 	let movieId = req.params.movieId
 
 	Movie
-	.findOneAndDelete(movieId)
+	.findById(movieId)
 	.exec((err,movie)=>{
-		if(err) res.status(500).send({message:`Error al realizar la peticion: ${err}`});
-		res.status(200).send({message: "La pelicula ha sido eliminada"})
+		if(err){
+			return res.status(500).send({message: `Error al realizar la peticion ${err}`})
+		}
+
+		movie.remove(err=>{
+			if(err) res.status(500).send({message:`Error al borrar la pelicula: ${err}`});
+			res.status(200).send({message: "La pelicula ha sido eliminada"})
+		})
 	})
 
 }
