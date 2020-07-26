@@ -6,7 +6,6 @@ const Actor = require('../models/actor')
 function getActors(req, res){
 	Actor
 	.find({})
-	.populate('movies')
 	.exec((err, actors)=> {
 		if(err){
 				return res.status(500).send({message: `Error al realizar la peticion ${err}`})
@@ -24,7 +23,6 @@ function getActor(req, res){
 
 	Actor
 	.findById(actorId)
-	.populate('movies')
 	.exec((err, actor)=> {
 		if(err){
 				return res.status(500).send({message: `Error al realizar la peticion ${err}`})
