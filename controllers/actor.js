@@ -63,7 +63,7 @@ function updateActor(req, res){
 		if(err){
 			return res.status(500).send({message: `Error al actualizar el actor ${err}`})
 		}
-		return res.status(200).send({movie: actorUpdated})
+		return res.status(200).send({actor: actorUpdated})
 	})
 	
 }

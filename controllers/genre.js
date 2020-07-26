@@ -3,30 +3,34 @@
 const Genre = require('../models/genre')
 
 function getGenres(req, res){
-	Genre.find({}, (err, genres)=>{
+	Genre
+	.find({})
+	.exec((err, genres)=> {
 		if(err){
-			return res.status(500).send({message: `Error al realizar la peticion ${err}`})
+				return res.status(500).send({message: `Error al realizar la peticion ${err}`})
 		}
 		if(!genres){
 			return res.status(404).send({message:`No existen generos disponibles`})
 		}
 
 		return res.status(200).send({genres});	
-	});
+	})
 }
 
 function getGenre(req, res){
 	let genreId = req.params.genreId
 
-	Genre.findById(genreId, (err, genre)=>{
+	Genre
+	.findById(genreId)
+	.exec((err, genre)=> {
 		if(err){
-			return res.status(500).send({message: `Error al realizar la peticion ${err}`})
+				return res.status(500).send({message: `Error al realizar la peticion ${err}`})
 		}
 		if(!genre){
 			return res.status(404).send({message:`No existe el genero`})
 		}
 
-		return res.status(200).send({genre})
+		return res.status(200).send({genero});	
 	})
 
 }
@@ -35,7 +39,8 @@ function saveGenre(req, res){
 	let genre = new Genre()
 	genre.name = req.body.name
 
-	genre.save((err, saved)=>{
+	genre
+	.save((err,saved)=>{
 		if(err){
 			return res.status(500).send({message: `Error al guardar el genero ${err}`})
 		}
@@ -49,7 +54,9 @@ function updateGenre(req, res){
 	let genreId = req.params.genreId
 	let update = req.body
 
-	Genre.findByIdAndUpdate(genreId, update,(err, genreUpdated)=>{
+	Genre
+	.findOneAndUpdate(genreId,update)
+	.exec((err, genreUpdated)=>{
 		if(err){
 			return res.status(500).send({message: `Error al actualizar el genero ${err}`})
 		}
@@ -61,11 +68,14 @@ function updateGenre(req, res){
 function deleteGenre(req,res){
 	let genreId = req.params.genreId
 
-	Genre.findById(genreId, (err,genre)=>{
-		if(err) res.status(500).send({message:`Error al realizar la peticion: ${err}`});
+	Genre
+	.findById(genreId)
+	.exec((err, genre)=>{
+		if(err){
+			return res.status(500).send({message: `Error al realizar la peticion ${err}`})
+		}
 
-
-		genre.remove(err =>{
+		genre.remove(err=>{
 			if(err) res.status(500).send({message:`Error al borrar el genero: ${err}`});
 			res.status(200).send({message: "El genero ha sido eliminado"})
 		})
