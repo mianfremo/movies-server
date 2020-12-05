@@ -41,7 +41,11 @@ function saveActor(req, res){
 	actor.name = req.body.name
 	actor.birth = req.body.birth
 	actor.oscars = req.body.oscars
-	actor.movies = req.body.movies.split(",")
+
+	if(req.body.movies !== undefined){
+		actor.movies = req.body.movies.split(",")
+	}
+	
 
 
 	actor

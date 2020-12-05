@@ -8,7 +8,7 @@ var actorSchema = new Schema({
 	name: String,
 	birth: Date,
 	oscars: Number,
-	movies: [{type: Schema.ObjectId, ref: "Movie"}]
+	movies: {type: [Schema.ObjectId], ref: "Movie", default: undefined}
 })
 
 module.exports = mongoose.model("Actor", actorSchema)
